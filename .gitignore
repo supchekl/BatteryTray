@@ -1,0 +1,15 @@
+# сборка
+bin/
+obj/
+preview/
+*.exe
+*.pdb
+
+# журналы
+*.log
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
