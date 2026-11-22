@@ -238,17 +238,16 @@ namespace BatteryTray
 
         private static async Task<List<DeviceInformation>> QueryContainersAsync()
         {
-            DeviceInformationCollection col;
+            DeviceInformationCollection col = null;
             try
             {
                 col = await WinRtAsync.AsTask(DeviceInformation.FindAllAsync(
                     "System.Devices.LocalMachine:=System.StructuredQueryType.Boolean#False", ContainerProps, DeviceInformationKind.DeviceContainer));
             }
-            catch (ArgumentException)
-            {
-                // запасной вариант без фильтра, отфильтруем сами
+            catch (ArgumentException) { }
+            // запасной вариант без фильтра, отфильтруем сами
+            if (col == null)
                 col = await WinRtAsync.AsTask(DeviceInformation.FindAllAsync("", ContainerProps, DeviceInformationKind.DeviceContainer));
-            }
             var list = new List<DeviceInformation>();
             foreach (DeviceInformation d in col) list.Add(d);
             return list;
